@@ -1,0 +1,54 @@
+def get_conversion_rate(from_currency, to_currency):
+    # This function would ideally fetch the latest conversion rate from a financial API
+    # For now, we'll use some mock conversion rates
+    rates = {
+        ("USD", "EUR"): 0.85,
+        ("EUR", "USD"): 1.18,
+        ("USD", "JPY"): 110.0,
+        ("JPY", "USD"): 0.0091,
+        ("USD", "GBP"): 0.75,
+        ("GBP", "USD"): 1.33,
+        ("EUR", "GBP"): 0.88,
+        ("GBP", "EUR"): 1.14,
+        ("EUR", "JPY"): 129.53,
+        ("JPY", "EUR"): 0.0077,
+        ("GBP", "JPY"): 146.12,
+        ("JPY", "GBP"): 0.0068,
+        ("USD", "CAD"): 1.25,
+        ("CAD", "USD"): 0.80,
+        ("USD", "AUD"): 1.35,
+        ("AUD", "USD"): 0.74,
+        ("EUR", "CAD"): 1.47,
+        ("CAD", "EUR"): 0.68,
+        ("EUR", "AUD"): 1.59,
+        ("AUD", "EUR"): 0.63,
+    }
+    return rates.get((from_currency, to_currency), None)
+
+def convert_currency(amount, from_currency, to_currency):
+    rate = get_conversion_rate(from_currency, to_currency)
+    if rate is None:
+        return "Conversion rate not available."
+    return amount * rate
+
+# Simple chatbot loop
+def currency_converter_chatbot():
+    print("Welcome to the Currency Converter Bot!")
+    while True:
+        from_currency = input("Enter the currency you have (e.g., USD, EUR): ").strip().upper()
+        to_currency = input("Enter the currency you want (e.g., USD, EUR): ").strip().upper()
+        amount = float(input(f"Enter the amount in {from_currency}: "))
+       
+        converted_amount = convert_currency(amount, from_currency, to_currency)
+        if isinstance(converted_amount, str):
+            print(converted_amount)
+        else:
+            print(f"{amount} {from_currency} is equal to {converted_amount:.2f} {to_currency}")
+       
+        continue_chat = input("Do you want to convert another amount? (yes/no): ").strip().lower()
+        if continue_chat != "yes":
+            print("Goodbye!")
+            break
+
+# Run the chatbot
+currency_converter_chatbot()
