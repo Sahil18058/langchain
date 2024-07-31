@@ -1,0 +1,38 @@
+def get_conversion_rate(from_currency, to_currency):
+    # This function would ideally fetch the latest conversion rate from a financial API
+    # For now, we'll use some mock conversion rates
+    rates = {
+        ("USD", "EUR"): 0.85,
+        ("EUR", "USD"): 1.18,
+        ("USD", "JPY"): 110.0,
+        ("JPY", "USD"): 0.0091,
+    }
+    return rates.get((from_currency, to_currency), None)
+
+def convert_currency(amount, from_currency, to_currency):
+    rate = get_conversion_rate(from_currency, to_currency)
+    if rate is None:
+        return "Conversion rate not available."
+    return amount * rate
+
+# Simple chatbot loop
+def currency_converter_chatbot():
+    print("Welcome to the Currency Converter Bot!")
+    while True:
+        from_currency = input("Enter the currency you have (e.g., USD, EUR): ").strip().upper()
+        to_currency = input("Enter the currency you want (e.g., USD, EUR): ").strip().upper()
+        amount = float(input(f"Enter the amount in {from_currency}: "))
+       
+        converted_amount = convert_currency(amount, from_currency, to_currency)
+        if isinstance(converted_amount, str):
+            print(converted_amount)
+        else:
+            print(f"{amount} {from_currency} is equal to {converted_amount:.2f} {to_currency}")
+       
+        continue_chat = input("Do you want to convert another amount? (yes/no): ").strip().lower()
+        if continue_chat != "yes":
+            print("Goodbye!")
+            break
+
+# Run the chatbot
+currency_converter_chatbot()
